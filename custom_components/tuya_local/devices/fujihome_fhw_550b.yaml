@@ -1,0 +1,237 @@
+name: "Underfloor Heating Thermostat"
+products:
+  - id: "qoqwgjf2hsyuptzq"
+    manufacturer: "FUJIHOME"
+    model: "FHW-550B"
+entities:
+  - entity: climate
+    class: heater
+    dps:
+      - id: 1
+        type: boolean
+        name: hvac_mode
+        mapping:
+          - dps_val: false
+            value: "off"
+          - dps_val: true
+            value: "heat"
+      - id: 2
+        type: string
+        name: preset_mode
+        mapping:
+          - dps_val: Hand
+            value: Manual
+          - dps_val: Auto
+            value: Auto
+      - id: 16
+        type: integer
+        name: "temperature"
+        range:
+          min: 50
+          max: 450
+        mapping:
+          - scale: 10
+            step: 5
+        unit: "C"
+      - id: 24
+        type: integer
+        name: "current_temperature"
+        readonly: true
+        mapping:
+          - scale: 10
+        unit: "C"
+
+  - entity: sensor
+    class: humidity
+    dps:
+      - id: 116
+        name: sensor
+        type: integer
+        unit: "%"
+        class: measurement
+
+  - entity: sensor
+    class: temperature
+    icon: "mdi:home-thermometer"
+    dps:
+      - id: 24
+        type: integer
+        name: sensor
+        unit: "C"
+        class: measurement
+        mapping:
+          - scale: 10
+
+  - entity: sensor
+    class: temperature
+    icon: "mdi:home-thermometer"
+    name: "Target temperature"
+    dps:
+      - id: 16
+        type: integer
+        name: sensor
+        unit: "C"
+        class: measurement
+        mapping:
+          - scale: 10
+
+  - entity: switch
+    category: config
+    name: "Child Lock"
+    dps:
+      - id: 40
+        type: boolean
+        name: "switch"
+
+  - entity: switch
+    category: config
+    icon: mdi:leaf-circle
+    name: "ECO Mode"
+    dps:
+      - id: 4
+        type: boolean
+        name: "switch"
+
+  - entity: select
+    name: Temperature Sensor Mode
+    icon: "mdi:home-thermometer"
+    category: config
+    dps:
+      - id: 110
+        type: string
+        name: option
+        mapping:
+          - dps_val: IN
+            value: Internal
+          - dps_val: OU
+            value: Floor
+          - dps_val: AL
+            value: Both
+
+  - entity: number
+    name: "Hysteresis (Dead Zone)"
+    icon: "mdi:thermometer-lines"
+    category: config
+    mode: box
+    dps:
+      - id: 111
+        type: integer
+        name: value
+        range:
+          min: 1
+          max: 5
+        unit: "C"
+
+  - entity: number
+    category: config
+    name: "Display Brightness (Day)"
+    icon: mdi:brightness-6
+    dps:
+      - id: 114
+        type: integer
+        name: value
+        range:
+          min: 0
+          max: 9
+
+  - entity: number
+    translation_key: maximum_temperature
+    category: config
+    class: temperature
+    dps:
+      - id: 19
+        type: integer
+        name: value
+        unit: C
+        range:
+          min: 50
+          max: 3000
+        mapping:
+          - scale: 10
+            step: 10
+
+  - entity: number
+    translation_key: minimum_temperature
+    category: config
+    class: temperature
+    dps:
+      - id: 26
+        name: value
+        type: integer
+        unit: C
+        range:
+          min: 50
+          max: 3000
+        mapping:
+          - scale: 10
+            step: 10
+
+  - entity: number
+    translation_key: temperature
+    name: "ECO temperature"
+    mode: box
+    icon: mdi:leaf
+    category: config
+    class: temperature
+    dps:
+      - id: 105
+        name: value
+        type: integer
+        unit: C
+        range:
+          min: 50
+          max: 200
+        mapping:
+          - scale: 10
+            step: 10
+
+  - entity: number
+    translation_key: temperature_calibration
+    name: "Temperature correction"
+    category: config
+    dps:
+      - id: 27
+        type: integer
+        name: value
+        unit: °
+        range:
+          min: -12
+          max: 12
+
+  - entity: number
+    translation_key: temperature
+    name: "High-Temperature Protection"
+    mode: box
+    icon: mdi:thermometer-plus
+    category: config
+    class: temperature
+    dps:
+      - id: 112
+        name: value
+        type: integer
+        unit: C
+        range:
+          min: 100
+          max: 700
+        mapping:
+          - scale: 10
+            step: 10
+
+  - entity: number
+    translation_key: temperature
+    name: "Low-Temperature Protection"
+    mode: box
+    icon: mdi:thermometer-minus
+    category: config
+    class: temperature
+    dps:
+      - id: 113
+        name: value
+        type: integer
+        unit: C
+        range:
+          min: 0
+          max: 100
+        mapping:
+          - scale: 10
+            step: 10
